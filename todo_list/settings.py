@@ -22,10 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$%ek12yul63tlbgi&bxg6iejd%*ro$@+to#mrey!nut*6bhqd_'
+# SECRET_KEY = 'django-insecure-$%ek12yul63tlbgi&bxg6iejd%*ro$@+to#mrey!nut*6bhqd_'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
 
 ALLOWED_HOSTS = []
 
@@ -94,10 +96,14 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 # }
 
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgres://postgres:messi555$$$@localhost:5432/todo_db'
+#     )
+# }
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://postgres:messi555$$$@localhost:5432/todo_db'
-    )
+    'default': dj_database_url.config(conn_max_age=600)
 }
 
 
