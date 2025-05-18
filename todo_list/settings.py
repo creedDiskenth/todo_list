@@ -23,16 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-$%ek12yul63tlbgi&bxg6iejd%*ro$@+to#mrey!nut*6bhqd_'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY من متغيرات البيئة، لو ما موجود يرجع قيمة افتراضية (بس للبيئة المحلية)
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-$%ek12yul63tlbgi&bxg6iejd%*ro$@+to#mrey!nut*6bhqd_')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG برضه من متغير البيئة، افتراضياً False للرفع على الإنتاج
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-
-# ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost')]
-
-
+# ALLOWED_HOSTS: لو على Render يجيب الاسم من المتغير، وإذا محلي يسمح localhost و 127.0.0.1
+if os.environ.get("RENDER"):
+    ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME', '')]
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -87,16 +88,16 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'todo_db',           # ← اسم قاعدة البيانات اللي أنشأتها
-#         'USER': 'postgres',          # ← المستخدم (غالبًا postgres)
-#         'PASSWORD': 'messi555$$$',   # ← كلمة السر اللي عينتها وقت تثبيت PostgreSQL
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'todo_db',           # ← اسم قاعدة البيانات اللي أنشأتها
+        'USER': 'postgres',          # ← المستخدم (غالبًا postgres)
+        'PASSWORD': 'messi555$$$',   # ← كلمة السر اللي عينتها وقت تثبيت PostgreSQL
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 # DATABASES = {
@@ -105,9 +106,9 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 #     )
 # }
 
-DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
-}
+# DATABASES = {
+#     'default': dj_database_url.config(conn_max_age=600)
+# }
 
 
 # Password validation
@@ -149,6 +150,11 @@ LOGIN_URL ='login'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
