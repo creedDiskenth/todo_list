@@ -88,25 +88,23 @@ WSGI_APPLICATION = 'todo_list.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'todo_db',           # ← اسم قاعدة البيانات اللي أنشأتها
-        'USER': 'postgres',          # ← المستخدم (غالبًا postgres)
-        'PASSWORD': 'messi555$$$',   # ← كلمة السر اللي عينتها وقت تثبيت PostgreSQL
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default='postgres://postgres:messi555$$$@localhost:5432/todo_db'
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'todo_db',           # ← اسم قاعدة البيانات اللي أنشأتها
+#         'USER': 'postgres',          # ← المستخدم (غالبًا postgres)
+#         'PASSWORD': 'messi555$$$',   # ← كلمة السر اللي عينتها وقت تثبيت PostgreSQL
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
 # }
 
-# DATABASES = {
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default='postgres://postgres:messi555$$$@localhost:5432/todo_db'
+    )
+}# DATABASES = {
 #     'default': dj_database_url.config(conn_max_age=600)
 # }
 
